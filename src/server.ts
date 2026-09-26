@@ -1,11 +1,9 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+import { env } from './config/env.js';
 import { createServer } from 'http';
 import { app } from './app.js';
 import { prisma } from './config/db.js';
 
-const PORT = process.env.PORT || 5000;
+const PORT = env.PORT;
 const httpServer = createServer(app);
 
 async function bootstrap() {
