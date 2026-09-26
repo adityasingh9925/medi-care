@@ -6,3 +6,39 @@ generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+model User {
+  id            String         @id @default(uuid()) @db.Uuid
+  email         String         @unique  
+  passwordHash  String
+  fullname      String
+  role          Role           @default(PATIENT)
+  phone         String?
+  createdAt     DateTime       @default(now())
+  refreshTokens RefreshToken[]
+
+  @@index([role])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  tokenHash String   @unique
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family    String   @default(uuid()) @db.Uuid
+  isRevoked Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userAgent String?
+  ipAddress String?
+
+  @@index([userId])
+  @@index([family])
+}

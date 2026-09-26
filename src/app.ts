@@ -1,33 +1,27 @@
-import type { Request, Response } from 'express';
-import express from 'express';
-import cors from 'cors';
-import { errorHandler } from './middlewares/errorHandler.js';
-import { AppError } from './utils/AppError.js';
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import routes from "./routes/index.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: true,
     credentials: true,
   })
 );
-
 app.use(express.json());
+app.use(cookieParser());
 
-// Health Check
-app.get('/health', (_req: Request, res: Response) => {
+app.get("/health", (_req, res) => {
   res.status(200).json({
-    status: 'ok',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
+    success: true,
+    message: "Server is healthy",
   });
 });
 
-// 404 handler
-app.use((req: Request, _res: Response, next) => {
-  next(new AppError(`Route ${req.originalUrl} not found`, 404));
-});
+app.use("/api", routes);
 
-// Global Error Handler
 app.use(errorHandler);
