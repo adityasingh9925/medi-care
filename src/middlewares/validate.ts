@@ -65,3 +65,76 @@ export function validateBody(schema: z.ZodType): RequestHandler {
     next();
   };
 }
+
+export const doctorProfileSchema = z
+  .object({
+    specialization: z
+      .string()
+      .trim()
+      .min(2, "Specialization must be at least 2 characters"),
+
+    experienceYears: z
+      .number()
+      .int("Experience must be a whole number")
+      .nonnegative("Experience cannot be negative"),
+
+    consultationFees: z
+      .number()
+      .positive("Consultation fees must be greater than 0")
+      .optional(),
+
+    consultationFee: z
+      .number()
+      .positive("Consultation fees must be greater than 0")
+      .optional(),
+
+    isHomeVisitAvailable: z.boolean().default(false),
+  })
+  .refine(
+    (data) =>
+      data.consultationFees !== undefined || data.consultationFee !== undefined,
+    {
+      message: "Consultation fees is required and must be greater than 0",
+      path: ["consultationFees"],
+    },
+  )
+  .transform((data) => {
+    const fee = (data.consultationFees ?? data.consultationFee)!;
+    return {
+      specialization: data.specialization,
+      experienceYears: data.experienceYears,
+      consultationFees: fee,
+      consultationFee: fee,
+      isHomeVisitAvailable: data.isHomeVisitAvailable,
+    };
+  });
+
+export const timeSlotSchema = z
+  .object({
+    dayOfWeek: z
+      .number()
+      .int("Day of week must be a whole number")
+      .min(0, "Day of week must be between 0 and 6")
+      .max(6, "Day of week must be between 0 and 6"),
+
+    startTime: z
+      .string()
+      .regex(
+        /^([01]\d|2[0-3]):([0-5]\d)$/,
+        "Start time must be in HH:mm format",
+      ),
+
+    endTime: z
+      .string()
+      .regex(
+        /^([01]\d|2[0-3]):([0-5]\d)$/,
+        "End time must be in HH:mm format",
+      ),
+  })
+  .refine(
+    (data) => data.startTime < data.endTime,
+    {
+      message: "End time must be after start time",
+      path: ["endTime"],
+    },
+  );
