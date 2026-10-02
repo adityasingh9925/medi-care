@@ -51,3 +51,13 @@ export type User = Prisma.UserModel
  * 
  */
 export type RefreshToken = Prisma.RefreshTokenModel
+/**
+ * Model DoctorProfile
+ * 
+ */
+export type DoctorProfile = Prisma.DoctorProfileModel
+/**
+ * Model TimeSlot
+ * 
+ */
+export type TimeSlot = Prisma.TimeSlotModel

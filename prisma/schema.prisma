@@ -22,6 +22,7 @@ model User {
   phone         String?
   createdAt     DateTime       @default(now())
   refreshTokens RefreshToken[]
+  doctorProfile DoctorProfile?
 
   @@index([role])
 }
@@ -41,4 +42,37 @@ model RefreshToken {
 
   @@index([userId])
   @@index([family])
+}
+
+model DoctorProfile {
+  id  String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  specialization String
+  experienceYears Int
+  consultationFees Float
+  isHomeVisitAvailable Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade )
+  availability TimeSlot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([specialization])
+  @@index([isHomeVisitAvailable])
+}
+
+model TimeSlot {
+  id          String        @id @default(uuid()) @db.Uuid
+  doctorId    String        @db.Uuid
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  isBooked    Boolean       @default(false)
+
+  doctor      DoctorProfile @relation( fields: [doctorId], references: [id], onDelete: Cascade )
+
+  @@index([doctorId])
+  @@index([doctorId, dayOfWeek])
+  @@index([doctorId, isBooked])
 }
