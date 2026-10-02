@@ -402,7 +402,8 @@ export const ModelName = {
   DoctorProfile: 'DoctorProfile',
   TimeSlot: 'TimeSlot',
   MedicalRecord: 'MedicalRecord',
-  Appointment: 'Appointment'
+  Appointment: 'Appointment',
+  ConsultationRoom: 'ConsultationRoom'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "refreshToken" | "doctorProfile" | "timeSlot" | "medicalRecord" | "appointment"
+    modelProps: "user" | "refreshToken" | "doctorProfile" | "timeSlot" | "medicalRecord" | "appointment" | "consultationRoom"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +867,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ConsultationRoom: {
+      payload: Prisma.$ConsultationRoomPayload<ExtArgs>
+      fields: Prisma.ConsultationRoomFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ConsultationRoomFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ConsultationRoomFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>
+        }
+        findFirst: {
+          args: Prisma.ConsultationRoomFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ConsultationRoomFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>
+        }
+        findMany: {
+          args: Prisma.ConsultationRoomFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>[]
+        }
+        create: {
+          args: Prisma.ConsultationRoomCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>
+        }
+        createMany: {
+          args: Prisma.ConsultationRoomCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ConsultationRoomCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>[]
+        }
+        delete: {
+          args: Prisma.ConsultationRoomDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>
+        }
+        update: {
+          args: Prisma.ConsultationRoomUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>
+        }
+        deleteMany: {
+          args: Prisma.ConsultationRoomDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ConsultationRoomUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ConsultationRoomUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>[]
+        }
+        upsert: {
+          args: Prisma.ConsultationRoomUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsultationRoomPayload>
+        }
+        aggregate: {
+          args: Prisma.ConsultationRoomAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConsultationRoom>
+        }
+        groupBy: {
+          args: Prisma.ConsultationRoomGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConsultationRoomGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ConsultationRoomCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConsultationRoomCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -986,6 +1061,18 @@ export const AppointmentScalarFieldEnum = {
 } as const
 
 export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
+
+
+export const ConsultationRoomScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  roomUrl: 'roomUrl',
+  roomName: 'roomName',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type ConsultationRoomScalarFieldEnum = (typeof ConsultationRoomScalarFieldEnum)[keyof typeof ConsultationRoomScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1279,6 +1366,7 @@ export type GlobalOmitConfig = {
   timeSlot?: Prisma.TimeSlotOmit
   medicalRecord?: Prisma.MedicalRecordOmit
   appointment?: Prisma.AppointmentOmit
+  consultationRoom?: Prisma.ConsultationRoomOmit
 }
 
 /* Types for Logging */
