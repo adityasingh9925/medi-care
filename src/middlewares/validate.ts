@@ -201,3 +201,7 @@ export const updateAppointmentStatusSchema = z.object({
     "CANCELLED",
   ]),
 });
+
+export const joinConsultationSchema = z.object({
+  appointmentId: z.string().uuid("Invalid appointment ID"),
+});
