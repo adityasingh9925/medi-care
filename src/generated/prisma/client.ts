@@ -61,3 +61,8 @@ export type DoctorProfile = Prisma.DoctorProfileModel
  * 
  */
 export type TimeSlot = Prisma.TimeSlotModel
+/**
+ * Model MedicalRecord
+ * 
+ */
+export type MedicalRecord = Prisma.MedicalRecordModel

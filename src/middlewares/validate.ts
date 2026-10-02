@@ -115,7 +115,7 @@ export const timeSlotSchema = z
       .number()
       .int("Day of week must be a whole number")
       .min(0, "Day of week must be between 0 and 6")
-      .max(6, "Day of week must be between 0 and 6"),
+      .max(6, "Day of week mus  t be between 0 and 6"),
 
     startTime: z
       .string()
@@ -138,3 +138,26 @@ export const timeSlotSchema = z
       path: ["endTime"],
     },
   );
+
+  export const createMedicalRecordSchema = z.object({
+  patientId: z.string().uuid("Invalid patient ID"),
+
+  title: z
+    .string()
+    .trim()
+    .min(1, "Title is required"),
+
+  fileUrl: z
+    .string()
+    .trim()
+    .optional(),
+
+  aiSummary: z
+    .string()
+    .trim()
+    .optional(),
+});
+
+export const patientIdParamsSchema = z.object({
+  patientId: z.string().uuid("Invalid patient ID"),
+}); 

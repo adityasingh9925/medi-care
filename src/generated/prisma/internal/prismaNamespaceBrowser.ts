@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
   DoctorProfile: 'DoctorProfile',
-  TimeSlot: 'TimeSlot'
+  TimeSlot: 'TimeSlot',
+  MedicalRecord: 'MedicalRecord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -126,6 +127,18 @@ export const TimeSlotScalarFieldEnum = {
 } as const
 
 export type TimeSlotScalarFieldEnum = (typeof TimeSlotScalarFieldEnum)[keyof typeof TimeSlotScalarFieldEnum]
+
+
+export const MedicalRecordScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  aiSummary: 'aiSummary',
+  createdAt: 'createdAt'
+} as const
+
+export type MedicalRecordScalarFieldEnum = (typeof MedicalRecordScalarFieldEnum)[keyof typeof MedicalRecordScalarFieldEnum]
 
 
 export const SortOrder = {
