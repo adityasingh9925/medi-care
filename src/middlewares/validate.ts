@@ -161,3 +161,43 @@ export const timeSlotSchema = z
 export const patientIdParamsSchema = z.object({
   patientId: z.string().uuid("Invalid patient ID"),
 }); 
+
+export const createAppointmentSchema = z
+  .object({
+    doctorId: z.string().uuid("Invalid doctor ID"),
+
+    timeSlotId: z.string().uuid("Invalid time slot ID"),
+
+    type: z.enum([
+      "CLINIC",
+      "HOME_VISIT",
+      "TELEHEALTH",
+    ]),
+
+    scheduledAt: z.coerce.date(),
+
+    address: z.string().trim().optional(),
+
+    reason: z.string().trim().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.type === "HOME_VISIT" &&
+      (!data.address || data.address.length === 0)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["address"],
+        message: "Address is required for home visits",
+      });
+    }
+  });
+
+export const updateAppointmentStatusSchema = z.object({
+  status: z.enum([
+    "SCHEDULED",
+    "CONFIRMED",
+    "COMPLETED",
+    "CANCELLED",
+  ]),
+});

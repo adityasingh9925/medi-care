@@ -225,6 +225,7 @@ export type TimeSlotWhereInput = {
   endTime?: Prisma.StringFilter<"TimeSlot"> | string
   isBooked?: Prisma.BoolFilter<"TimeSlot"> | boolean
   doctor?: Prisma.XOR<Prisma.DoctorProfileScalarRelationFilter, Prisma.DoctorProfileWhereInput>
+  appointments?: Prisma.AppointmentListRelationFilter
 }
 
 export type TimeSlotOrderByWithRelationInput = {
@@ -235,6 +236,7 @@ export type TimeSlotOrderByWithRelationInput = {
   endTime?: Prisma.SortOrder
   isBooked?: Prisma.SortOrder
   doctor?: Prisma.DoctorProfileOrderByWithRelationInput
+  appointments?: Prisma.AppointmentOrderByRelationAggregateInput
 }
 
 export type TimeSlotWhereUniqueInput = Prisma.AtLeast<{
@@ -248,6 +250,7 @@ export type TimeSlotWhereUniqueInput = Prisma.AtLeast<{
   endTime?: Prisma.StringFilter<"TimeSlot"> | string
   isBooked?: Prisma.BoolFilter<"TimeSlot"> | boolean
   doctor?: Prisma.XOR<Prisma.DoctorProfileScalarRelationFilter, Prisma.DoctorProfileWhereInput>
+  appointments?: Prisma.AppointmentListRelationFilter
 }, "id">
 
 export type TimeSlotOrderByWithAggregationInput = {
@@ -283,6 +286,7 @@ export type TimeSlotCreateInput = {
   endTime: string
   isBooked?: boolean
   doctor: Prisma.DoctorProfileCreateNestedOneWithoutAvailabilityInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutTimeSlotInput
 }
 
 export type TimeSlotUncheckedCreateInput = {
@@ -292,6 +296,7 @@ export type TimeSlotUncheckedCreateInput = {
   startTime: string
   endTime: string
   isBooked?: boolean
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTimeSlotInput
 }
 
 export type TimeSlotUpdateInput = {
@@ -301,6 +306,7 @@ export type TimeSlotUpdateInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isBooked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doctor?: Prisma.DoctorProfileUpdateOneRequiredWithoutAvailabilityNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutTimeSlotNestedInput
 }
 
 export type TimeSlotUncheckedUpdateInput = {
@@ -310,6 +316,7 @@ export type TimeSlotUncheckedUpdateInput = {
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isBooked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTimeSlotNestedInput
 }
 
 export type TimeSlotCreateManyInput = {
@@ -383,6 +390,11 @@ export type TimeSlotSumOrderByAggregateInput = {
   dayOfWeek?: Prisma.SortOrder
 }
 
+export type TimeSlotScalarRelationFilter = {
+  is?: Prisma.TimeSlotWhereInput
+  isNot?: Prisma.TimeSlotWhereInput
+}
+
 export type TimeSlotCreateNestedManyWithoutDoctorInput = {
   create?: Prisma.XOR<Prisma.TimeSlotCreateWithoutDoctorInput, Prisma.TimeSlotUncheckedCreateWithoutDoctorInput> | Prisma.TimeSlotCreateWithoutDoctorInput[] | Prisma.TimeSlotUncheckedCreateWithoutDoctorInput[]
   connectOrCreate?: Prisma.TimeSlotCreateOrConnectWithoutDoctorInput | Prisma.TimeSlotCreateOrConnectWithoutDoctorInput[]
@@ -425,12 +437,27 @@ export type TimeSlotUncheckedUpdateManyWithoutDoctorNestedInput = {
   deleteMany?: Prisma.TimeSlotScalarWhereInput | Prisma.TimeSlotScalarWhereInput[]
 }
 
+export type TimeSlotCreateNestedOneWithoutAppointmentsInput = {
+  create?: Prisma.XOR<Prisma.TimeSlotCreateWithoutAppointmentsInput, Prisma.TimeSlotUncheckedCreateWithoutAppointmentsInput>
+  connectOrCreate?: Prisma.TimeSlotCreateOrConnectWithoutAppointmentsInput
+  connect?: Prisma.TimeSlotWhereUniqueInput
+}
+
+export type TimeSlotUpdateOneRequiredWithoutAppointmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeSlotCreateWithoutAppointmentsInput, Prisma.TimeSlotUncheckedCreateWithoutAppointmentsInput>
+  connectOrCreate?: Prisma.TimeSlotCreateOrConnectWithoutAppointmentsInput
+  upsert?: Prisma.TimeSlotUpsertWithoutAppointmentsInput
+  connect?: Prisma.TimeSlotWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TimeSlotUpdateToOneWithWhereWithoutAppointmentsInput, Prisma.TimeSlotUpdateWithoutAppointmentsInput>, Prisma.TimeSlotUncheckedUpdateWithoutAppointmentsInput>
+}
+
 export type TimeSlotCreateWithoutDoctorInput = {
   id?: string
   dayOfWeek: number
   startTime: string
   endTime: string
   isBooked?: boolean
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutTimeSlotInput
 }
 
 export type TimeSlotUncheckedCreateWithoutDoctorInput = {
@@ -439,6 +466,7 @@ export type TimeSlotUncheckedCreateWithoutDoctorInput = {
   startTime: string
   endTime: string
   isBooked?: boolean
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTimeSlotInput
 }
 
 export type TimeSlotCreateOrConnectWithoutDoctorInput = {
@@ -479,6 +507,58 @@ export type TimeSlotScalarWhereInput = {
   isBooked?: Prisma.BoolFilter<"TimeSlot"> | boolean
 }
 
+export type TimeSlotCreateWithoutAppointmentsInput = {
+  id?: string
+  dayOfWeek: number
+  startTime: string
+  endTime: string
+  isBooked?: boolean
+  doctor: Prisma.DoctorProfileCreateNestedOneWithoutAvailabilityInput
+}
+
+export type TimeSlotUncheckedCreateWithoutAppointmentsInput = {
+  id?: string
+  doctorId: string
+  dayOfWeek: number
+  startTime: string
+  endTime: string
+  isBooked?: boolean
+}
+
+export type TimeSlotCreateOrConnectWithoutAppointmentsInput = {
+  where: Prisma.TimeSlotWhereUniqueInput
+  create: Prisma.XOR<Prisma.TimeSlotCreateWithoutAppointmentsInput, Prisma.TimeSlotUncheckedCreateWithoutAppointmentsInput>
+}
+
+export type TimeSlotUpsertWithoutAppointmentsInput = {
+  update: Prisma.XOR<Prisma.TimeSlotUpdateWithoutAppointmentsInput, Prisma.TimeSlotUncheckedUpdateWithoutAppointmentsInput>
+  create: Prisma.XOR<Prisma.TimeSlotCreateWithoutAppointmentsInput, Prisma.TimeSlotUncheckedCreateWithoutAppointmentsInput>
+  where?: Prisma.TimeSlotWhereInput
+}
+
+export type TimeSlotUpdateToOneWithWhereWithoutAppointmentsInput = {
+  where?: Prisma.TimeSlotWhereInput
+  data: Prisma.XOR<Prisma.TimeSlotUpdateWithoutAppointmentsInput, Prisma.TimeSlotUncheckedUpdateWithoutAppointmentsInput>
+}
+
+export type TimeSlotUpdateWithoutAppointmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  isBooked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  doctor?: Prisma.DoctorProfileUpdateOneRequiredWithoutAvailabilityNestedInput
+}
+
+export type TimeSlotUncheckedUpdateWithoutAppointmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  isBooked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
 export type TimeSlotCreateManyDoctorInput = {
   id?: string
   dayOfWeek: number
@@ -493,6 +573,7 @@ export type TimeSlotUpdateWithoutDoctorInput = {
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isBooked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  appointments?: Prisma.AppointmentUpdateManyWithoutTimeSlotNestedInput
 }
 
 export type TimeSlotUncheckedUpdateWithoutDoctorInput = {
@@ -501,6 +582,7 @@ export type TimeSlotUncheckedUpdateWithoutDoctorInput = {
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isBooked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTimeSlotNestedInput
 }
 
 export type TimeSlotUncheckedUpdateManyWithoutDoctorInput = {
@@ -512,6 +594,35 @@ export type TimeSlotUncheckedUpdateManyWithoutDoctorInput = {
 }
 
 
+/**
+ * Count Type TimeSlotCountOutputType
+ */
+
+export type TimeSlotCountOutputType = {
+  appointments: number
+}
+
+export type TimeSlotCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  appointments?: boolean | TimeSlotCountOutputTypeCountAppointmentsArgs
+}
+
+/**
+ * TimeSlotCountOutputType without action
+ */
+export type TimeSlotCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeSlotCountOutputType
+   */
+  select?: Prisma.TimeSlotCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TimeSlotCountOutputType without action
+ */
+export type TimeSlotCountOutputTypeCountAppointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AppointmentWhereInput
+}
+
 
 export type TimeSlotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -521,6 +632,8 @@ export type TimeSlotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   endTime?: boolean
   isBooked?: boolean
   doctor?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
+  appointments?: boolean | Prisma.TimeSlot$appointmentsArgs<ExtArgs>
+  _count?: boolean | Prisma.TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["timeSlot"]>
 
 export type TimeSlotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -555,6 +668,8 @@ export type TimeSlotSelectScalar = {
 export type TimeSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "doctorId" | "dayOfWeek" | "startTime" | "endTime" | "isBooked", ExtArgs["result"]["timeSlot"]>
 export type TimeSlotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctor?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
+  appointments?: boolean | Prisma.TimeSlot$appointmentsArgs<ExtArgs>
+  _count?: boolean | Prisma.TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TimeSlotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctor?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
@@ -567,6 +682,7 @@ export type $TimeSlotPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "TimeSlot"
   objects: {
     doctor: Prisma.$DoctorProfilePayload<ExtArgs>
+    appointments: Prisma.$AppointmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -970,6 +1086,7 @@ readonly fields: TimeSlotFieldRefs;
 export interface Prisma__TimeSlotClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   doctor<T extends Prisma.DoctorProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__DoctorProfileClient<runtime.Types.Result.GetResult<Prisma.$DoctorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  appointments<T extends Prisma.TimeSlot$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TimeSlot$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1403,6 +1520,30 @@ export type TimeSlotDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many TimeSlots to delete.
    */
   limit?: number
+}
+
+/**
+ * TimeSlot.appointments
+ */
+export type TimeSlot$appointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Appointment
+   */
+  select?: Prisma.AppointmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Appointment
+   */
+  omit?: Prisma.AppointmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AppointmentInclude<ExtArgs> | null
+  where?: Prisma.AppointmentWhereInput
+  orderBy?: Prisma.AppointmentOrderByWithRelationInput | Prisma.AppointmentOrderByWithRelationInput[]
+  cursor?: Prisma.AppointmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AppointmentScalarFieldEnum | Prisma.AppointmentScalarFieldEnum[]
 }
 
 /**

@@ -24,6 +24,8 @@ model User {
   refreshTokens RefreshToken[]
   doctorProfile DoctorProfile?
  medicalRecords MedicalRecord[]
+ patientAppointments Appointment[] @relation("PatientAppointments")
+doctorAppointments  Appointment[] @relation("DoctorAppointments")
   @@index([role])
 }
 
@@ -71,7 +73,7 @@ model TimeSlot {
   isBooked    Boolean       @default(false)
 
   doctor      DoctorProfile @relation( fields: [doctorId], references: [id], onDelete: Cascade )
-
+appointments Appointment[]
   @@index([doctorId])
   @@index([doctorId, dayOfWeek])
   @@index([doctorId, isBooked])
@@ -89,4 +91,46 @@ model MedicalRecord {
 
   @@index([patientId])
   @@index([patientId, createdAt])
+}
+
+enum AppointmentType {
+  CLINIC
+  HOME_VISIT
+  TELEHEALTH
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Appointment {
+  id          String            @id @default(uuid()) @db.Uuid
+
+  patientId   String            @db.Uuid
+  doctorId    String            @db.Uuid
+  timeSlotId  String            @db.Uuid
+
+  type        AppointmentType   @default(CLINIC)
+  status      AppointmentStatus @default(SCHEDULED)
+
+  scheduledAt DateTime
+  address     String?
+  reason      String?
+
+  createdAt   DateTime          @default(now())
+
+  patient     User              @relation("PatientAppointments",fields: [patientId],references: [id],onDelete: Cascade)
+
+  doctor      User              @relation("DoctorAppointments",fields: [doctorId],references: [id],onDelete: Cascade)
+
+  timeSlot    TimeSlot          @relation(fields: [timeSlotId],references: [id],onDelete: Cascade)
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([scheduledAt])
+  @@index([status])
+  @@unique([timeSlotId])
 }
